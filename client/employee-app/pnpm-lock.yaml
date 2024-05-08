@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@ag-grid-community/client-side-row-model':
+    specifier: ^31.3.1
+    version: 31.3.1
   '@ag-grid-community/core':
     specifier: ^31.3.1
     version: 31.3.1
@@ -166,6 +169,13 @@ packages:
   /@adobe/css-tools@4.3.3:
     resolution: {integrity: sha512-rE0Pygv0sEZ4vBWHlAgJLGDU7Pm8xoO6p3wsEceb7GYAjScrOHpEo8KK/eVkAcnSM+slAEtXjA2JpdjLp4fJQQ==}
     dev: true
+
+  /@ag-grid-community/client-side-row-model@31.3.1:
+    resolution: {integrity: sha512-dSd6IDPnVdxGTxd7XWXgy+26d9LaIw7cNiLksytjtCUb67UfdH1Zyz681n9Kp753hJPCJHjJDxikNTUCQgw+JQ==}
+    dependencies:
+      '@ag-grid-community/core': 31.3.1
+      tslib: 2.6.2
+    dev: false
 
   /@ag-grid-community/core@31.3.1:
     resolution: {integrity: sha512-B7mzUWfU7ksojKjQyOuT4R6vlp3J2jbMjBlQ5xqLAxanM46b8tv0tVo29mES41dBhQwOEf7ElQpvvXqRsND6+g==}

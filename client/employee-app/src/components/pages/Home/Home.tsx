@@ -1,6 +1,7 @@
 import { theme } from "../../../theme/theme";
 import { Grid, Typography } from "@mui/material";
 import ActionPanel from "./ActionPanel";
+import Table from "./Table";
 
 const Home: React.FC = () => {
   return (
@@ -13,6 +14,9 @@ const Home: React.FC = () => {
         </Grid>
         <Grid item alignContent="center">
           <ActionPanel />
+        </Grid>
+        <Grid container item>
+          <Table />
         </Grid>
       </Grid>
     </Grid>

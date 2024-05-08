@@ -1,5 +1,4 @@
 import { registerApplication, start, LifeCycles, getAppNames } from "single-spa";
-const appNames = getAppNames();
 
 registerApplication(
   "@Zhabskyi/dashboard",
@@ -8,9 +7,9 @@ registerApplication(
 );
 
 registerApplication(
-  "Zhabskyi/employee-app",
-  () => System.import<LifeCycles>("Zhabskyi/employee-app"),
-  (location: Location) => location.pathname === "/employee-app"
+  "@Zhabskyi/employee-app",
+  () => System.import<LifeCycles>("@Zhabskyi/employee-app"),
+  (location: Location) => location.pathname === "/employees"
 );
 
 start();

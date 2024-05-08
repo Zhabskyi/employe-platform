@@ -1,0 +1,23 @@
+{
+  "extends": "ts-config-single-spa",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "declarationDir": "dist",
+    "paths": {
+      "@": ["./src"],
+      "@/*": ["./src/*"],
+      "@components/*": ["./src/components/*"],
+      "@utilities": ["./src/utilities"],
+      "@utilities/*": ["./src/utilities/*"],
+      "@models": ["./src/models"],
+      "@models/*": ["./src/models/*"],
+      "@api/*": ["./src/api/*"],
+      "@assets/*": ["./src/assets/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@query-hooks/*": ["./src/query-hooks/*"],
+    }
+  },
+  "files": ["src/dashboard-app.tsx"],
+  "include": ["src/**/*"],
+  "exclude": ["src/**/*.test*"]
+}

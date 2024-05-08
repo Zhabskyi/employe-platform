@@ -1,0 +1,14 @@
+**/node_modules/**
+**/dist/**
+.idea
+**/bin
+/startNPM.bat
+/coverage
+/TestResults
+unit-tests.xml
+**/cdk.out/*
+.DS_Store
+junit.xml
+test-report.xml
+package-lock.json
+eslint-junit.xml

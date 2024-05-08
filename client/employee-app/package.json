@@ -3,7 +3,7 @@
   "private": false,
   "version": "0.0.1",
   "scripts": {
-    "start": "webpack-dev-server --port 3001",
+    "start": "webpack-dev-server --port 3002",
     "start:standalone": "webpack serve --env standalone",
     "build:webpack": "webpack --mode=production",
     "analyze": "webpack --mode=production --env analyze",

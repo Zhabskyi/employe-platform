@@ -5,7 +5,7 @@ const { EnvironmentPlugin } = require("webpack");
 module.exports = (webpackConfigEnv, argv) => {
   const defaultConfig = singleSpaDefaults({
     orgName: "zhabskyi",
-    projectName: "dashboard-app",
+    projectName: "employee-app",
     webpackConfigEnv,
     argv
   });

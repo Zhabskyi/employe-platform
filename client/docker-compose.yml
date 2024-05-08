@@ -1,0 +1,41 @@
+version: '3.8'
+services:
+  orchestrator:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./orchestrator:/usr/src/app/orchestrator
+    command: pnpm --prefix ./orchestrator start
+    networks:
+      - microfrontend-network
+
+  dashboard:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./dashboard:/usr/src/app/dashboard
+    command: pnpm --prefix ./dashboard start
+    networks:
+      - microfrontend-network
+  
+  employee-app:
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "3002:3002"
+    volumes:
+      - ./employee-app:/usr/src/app/employee-app
+    command: pnpm --prefix ./employee-app start
+    networks:
+      - microfrontend-network
+
+networks:
+  microfrontend-network:
+    driver: bridge

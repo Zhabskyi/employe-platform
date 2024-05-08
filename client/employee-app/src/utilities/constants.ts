@@ -1,3 +1,3 @@
 export enum PATHS {
-  HOME = "/"
+  HOME = "/employees"
 }

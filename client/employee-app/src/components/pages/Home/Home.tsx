@@ -15,7 +15,7 @@ const Home: React.FC = () => {
         <Grid item alignContent="center">
           <ActionPanel />
         </Grid>
-        <Grid container item>
+        <Grid container item marginTop="48px">
           <Table />
         </Grid>
       </Grid>

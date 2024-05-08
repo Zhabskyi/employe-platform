@@ -7,7 +7,7 @@ const Welcome: React.FC = () => {
       <Typography variant="h3" color="primary">
         Welcome
       </Typography>
-      <Typography variant="h5" color="secondary">
+      <Typography variant="h5" color="primary">
         First Name Last Name
       </Typography>
     </Grid>

@@ -1,15 +1,14 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter } from "react-router-dom";
 import * as S from "./App.css";
-import { PATHS } from "../../utilities/constants";
 import TopWidgets from "../TopWidgets";
+import Operations from "../Operations/Operations";
 
 const App: React.FC = () => {
   return (
     <S.Main>
       <BrowserRouter>
-        <>
-          <TopWidgets />
-        </>
+        <TopWidgets />
+        <Operations />
       </BrowserRouter>
     </S.Main>
   );

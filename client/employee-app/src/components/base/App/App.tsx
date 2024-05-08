@@ -1,6 +1,7 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import * as S from "./App.css";
 import { PATHS } from "../../../utilities/constants";
+import Home from "../../pages/Home";
 
 const App: React.FC = () => {
   return (
@@ -9,7 +10,7 @@ const App: React.FC = () => {
         <>
           <Routes>
             <Route path={PATHS.HOME}>
-              <Route index element={<div>Home Page</div>} />
+              <Route index element={<Home />} />
             </Route>
           </Routes>
         </>

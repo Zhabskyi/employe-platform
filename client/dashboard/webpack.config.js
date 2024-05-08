@@ -17,6 +17,5 @@ module.exports = (webpackConfigEnv, argv) => {
         REACT_APP_BASE_URL: "http://localhost:8080"
       })
     ]
-    // modify the webpack config however you'd like to by adding to this object
   });
 };

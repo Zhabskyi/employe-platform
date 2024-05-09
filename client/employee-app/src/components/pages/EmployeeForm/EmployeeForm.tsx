@@ -20,7 +20,7 @@ const defaultValues = {
 
 const EmployeeForm: React.FC = () => {
   const {
-    employees: { createEmployee, createEmployeeStatus, resetCreateEmployeeStatus }
+    employees: { createEmployee, createEmployeeStatus, resetCreateEmployeeStatus, createEmployeeError }
   } = useMst();
 
   let query = useQuery();
@@ -74,13 +74,20 @@ const EmployeeForm: React.FC = () => {
       salary: data.salary
     };
     const response = await createEmployee(body);
-    if (response.message === "success") {
+    if (response?.message === "success") {
       navigate(`/${PATHS.HOME}`);
     }
   };
 
   return (
     <Grid container sx={{ margin: "48px" }}>
+      {createEmployeeError && (
+        <Grid container width="100%">
+          <Typography variant="h6" color="error">
+            {createEmployeeError}
+          </Typography>
+        </Grid>
+      )}
       <Typography variant="h3" color={theme.palette.text.primary}>
         Employee Form
       </Typography>

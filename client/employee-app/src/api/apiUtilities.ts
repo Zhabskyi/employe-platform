@@ -30,6 +30,6 @@ export const callAPI = async (
 
     return data;
   } catch (error) {
-    throw new Error(`Network or API error occurred: ${error.message || error}`);
+    throw new Error(`Network or API error occurred: ${error?.message || error}`);
   }
 };

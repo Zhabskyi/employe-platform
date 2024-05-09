@@ -9,7 +9,7 @@ registerApplication(
 registerApplication(
   "@Zhabskyi/employee-app",
   () => System.import<LifeCycles>("@Zhabskyi/employee-app"),
-  (location: Location) => location.pathname === "/employees"
+  (location: Location) => location.pathname.startsWith("/employee")
 );
 
 start();

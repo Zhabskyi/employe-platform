@@ -34,4 +34,22 @@ export class EmployeeService {
     const { rows } = await pool.query(sql, [firstName, lastName]);
     return rows.length ? rows[0] : null;
   }
+
+  public async updateEmployee(employee: Employee, id: number): Promise<any> {
+    const sql = `
+      UPDATE employees 
+      SET first_name = $1, last_name = $2, department = $3, salary = $4
+      WHERE id = $5
+      RETURNING *;
+    `;
+    const pool = Helper.pool();
+    const { rows } = await pool.query(sql, [
+      employee.firstName,
+      employee.lastName,
+      employee.department,
+      employee.salary,
+      id,
+    ]);
+    return rows.length ? rows[0] : null;
+  }
 }

@@ -6,6 +6,7 @@ import express from 'express';
 import helmet from 'helmet';
 import morgan from 'morgan';
 import { NODE_ENV, PORT, LOG_FORMAT, ORIGIN, CREDENTIALS } from '@config';
+import { ErrorHandler } from './middleware/errorHandler.middleware';
 
 export class App {
   public app: express.Application;
@@ -19,6 +20,7 @@ export class App {
 
     this.initializeMiddlewares();
     this.initializeRoutes(routes);
+    this.initializeErrorHandling();
   }
 
   public listen() {
@@ -43,5 +45,9 @@ export class App {
     routes.forEach((route) => {
       this.app.use('/', route.router);
     });
+  }
+
+  private initializeErrorHandling() {
+    this.app.use(ErrorHandler.handle);
   }
 }

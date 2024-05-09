@@ -10,6 +10,7 @@ import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-mod
 import { useMst } from "../../../../models/Root";
 import { observer } from "mobx-react-lite";
 import { API_STATUS } from "../../../../api/apiStatus";
+import { defaultColumnDefs } from "../../../../utilities/tableHelpers";
 
 const gridOptions: GridOptions = {
   components: {
@@ -32,27 +33,6 @@ const Table = () => {
     setupView();
   }, []);
 
-  const [columnDefs, setColumnDefs] = useState([
-    {
-      headerName: "First Name",
-      field: "firstName",
-      flex: 1
-    },
-    {
-      headerName: "Last Name",
-      field: "lastName",
-      flex: 1
-    },
-    { headerName: "Department", field: "department", flex: 1 },
-    {
-      headerName: "Salary",
-      field: "salary",
-      valueFormatter: (p) => "$" + Math.floor(p.value).toLocaleString(),
-      flex: 1
-    },
-    { headerName: "Actions", field: "button", cellRenderer: ActionButtons, flex: 1 }
-  ]);
-
   return (
     <>
       {employeeStatus === API_STATUS.LOADING && <div>Loading...</div>}
@@ -65,7 +45,7 @@ const Table = () => {
               rowHeight={56}
               rowData={[...employeeData]}
               gridOptions={gridOptions}
-              columnDefs={columnDefs}
+              columnDefs={defaultColumnDefs}
             />
           </div>
         </div>

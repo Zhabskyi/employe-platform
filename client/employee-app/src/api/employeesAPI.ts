@@ -6,3 +6,13 @@ export const getEmployeesAPI = () => {
     method: "get"
   });
 };
+
+export const createEmployeeAPI = (body: any) => {
+  return callAPI(`${apiConfig.employeesUrls}`, {
+    headers: {
+      "Content-Type": "application/json"
+    },
+    method: "post",
+    body: JSON.stringify(body)
+  });
+};

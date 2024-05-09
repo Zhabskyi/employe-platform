@@ -11,6 +11,7 @@ import { useMst } from "../../../../models/Root";
 import { observer } from "mobx-react-lite";
 import { API_STATUS } from "../../../../api/apiStatus";
 import { defaultColumnDefs } from "../../../../utilities/tableHelpers";
+import DeleteConfirmationModal from "./DeleteConfirmationModal";
 
 const gridOptions: GridOptions = {
   components: {
@@ -39,6 +40,10 @@ const Table = () => {
     setIsDeleteModalOpen(true);
   };
 
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false);
+  };
+
   return (
     <>
       {employeeStatus === API_STATUS.LOADING && <div>Loading...</div>}
@@ -57,6 +62,7 @@ const Table = () => {
           </div>
         </div>
       )}
+      <DeleteConfirmationModal open={isDeleteModalOpen} handleClose={closeDeleteModal} />
     </>
   );
 };

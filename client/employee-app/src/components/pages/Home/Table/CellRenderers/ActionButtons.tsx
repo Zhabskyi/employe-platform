@@ -8,10 +8,14 @@ import { IEmployee } from "../../../../../models/Employees/Employees";
 
 interface Props {
   data: IEmployee;
+  context: {
+    openDeleteModal: () => void;
+  };
 }
 
-const ActionButtons: React.FC = ({ data }: Props) => {
+const ActionButtons: React.FC = ({ data, context }: Props) => {
   const values = { ...data };
+  const { openDeleteModal } = context;
   const navigate = useNavigate();
 
   const onEditClick = () => {
@@ -27,7 +31,7 @@ const ActionButtons: React.FC = ({ data }: Props) => {
         </S.StyledButton>
       </Grid>
       <Grid item xs={6}>
-        <S.StyledButton variant="outlined" color="info">
+        <S.StyledButton variant="outlined" color="info" onClick={openDeleteModal}>
           <DeleteIcon color="error" />
         </S.StyledButton>
       </Grid>

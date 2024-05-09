@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { observer } from "mobx-react-lite";
@@ -8,6 +8,7 @@ import { theme } from "../../../theme/theme";
 import { CreateEmployeeValues, PATHS } from "../../../utilities/constants";
 import { formHandlers, validationSchema } from "../../../utilities/formHandlers";
 import { useMst } from "../../../models/Root";
+import { API_STATUS } from "../../../api/apiStatus";
 
 const defaultValues = {
   firstName: "",
@@ -18,7 +19,7 @@ const defaultValues = {
 
 const EmployeeForm: React.FC = () => {
   const {
-    employees: { createEmployee }
+    employees: { createEmployee, createEmployeeStatus, resetCreateEmployeeStatus }
   } = useMst();
   const { employeeId } = useParams();
   const navigate = useNavigate();
@@ -33,11 +34,18 @@ const EmployeeForm: React.FC = () => {
     defaultValues
   });
 
+  const isSubmitting = createEmployeeStatus === API_STATUS.LOADING;
+
+  useEffect(() => {
+    return () => {
+      resetCreateEmployeeStatus();
+    };
+  }, []);
+
   const backToHome = () => {
     navigate(`/${PATHS.HOME}`);
   };
 
-  console.log("employeeId", employeeId);
   const onSubmit = async (data) => {
     const body = {
       firstName: data.firstName,
@@ -45,7 +53,10 @@ const EmployeeForm: React.FC = () => {
       department: data.department,
       salary: data.salary
     };
-    await createEmployee(body);
+    const response = await createEmployee(body);
+    if (response.message === "success") {
+      navigate(`/${PATHS.HOME}`);
+    }
   };
 
   return (
@@ -155,8 +166,8 @@ const EmployeeForm: React.FC = () => {
                 </Button>
               </Grid>
               <Grid item>
-                <Button type="submit" variant="contained" color="primary">
-                  Submit
+                <Button sx={{ width: "125px" }} type="submit" variant="contained" color="primary">
+                  {isSubmitting ? "Loading..." : "Submit"}
                 </Button>
               </Grid>
             </Grid>

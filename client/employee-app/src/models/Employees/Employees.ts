@@ -52,9 +52,14 @@ export const Employees = types
         const data = yield createEmployeeAPI(body);
         self.employees.push(data.data);
         self.createEmployeeStatus = API_STATUS.SUCCESS;
+        return data;
       } catch (error) {
         self.createEmployeeError = "An error occurred and we were unable to create employee. Please try again.";
         self.createEmployeeStatus = API_STATUS.ERROR;
       }
-    })
+    }),
+    resetCreateEmployeeStatus() {
+      self.createEmployeeStatus = API_STATUS.IDLE;
+      self.createEmployeeError = "";
+    }
   }));

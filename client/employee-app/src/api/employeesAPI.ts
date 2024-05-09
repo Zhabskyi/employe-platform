@@ -9,7 +9,10 @@ export const getEmployeesAPI = () => {
 
 export const createEmployeeAPI = (body: any) => {
   return callAPI(`${apiConfig.employeesUrls}`, {
+    headers: {
+      "Content-Type": "application/json"
+    },
     method: "post",
-    body
+    body: JSON.stringify(body)
   });
 };

@@ -1,6 +1,6 @@
 import { NextFunction, Request, Response } from 'express';
 import { Container } from 'typedi';
-import { Employee } from '@/interfaces/employee.interface';
+import { Employee, EmployeeClient } from '@/interfaces/employee.interface';
 import { EmployeeService } from '@/services/employee.service';
 import { mapEmployeeData, mapSingleEmployeeData } from '@/utilities/schemaHelpers';
 
@@ -19,7 +19,7 @@ export class EmployeeController {
 
   public createEmployee = async (req: Request, res: Response, next: NextFunction) => {
     try {
-      const employeeData: Employee = req.body;
+      const employeeData: EmployeeClient = req.body;
       const createEmployeeData: Employee = await this.employee.createEmployee(employeeData);
 
       res.status(201).json({ data: mapSingleEmployeeData(createEmployeeData), message: 'success' });
@@ -31,7 +31,7 @@ export class EmployeeController {
   public updateEmployee = async (req: Request, res: Response, next: NextFunction) => {
     try {
       const id: number = parseInt(req.params.id);
-      const employeeData: Employee = req.body;
+      const employeeData: EmployeeClient = req.body;
       const updateEmployeeData: Employee = await this.employee.updateEmployee(employeeData, id);
 
       if (!updateEmployeeData) {

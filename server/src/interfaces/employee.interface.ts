@@ -6,7 +6,7 @@ export interface Employee {
   salary: number;
 }
 
-export interface EmployeeMapped {
+export interface EmployeeClient {
   id: number;
   firstName: string;
   lastName: string;

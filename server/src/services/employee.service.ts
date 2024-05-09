@@ -1,5 +1,5 @@
 import Helper from '@/db/helper';
-import { Employee } from '@/interfaces/employee.interface';
+import { EmployeeClient } from '@/interfaces/employee.interface';
 import { Service } from 'typedi';
 
 @Service()
@@ -11,7 +11,7 @@ export class EmployeeService {
     return rows.length ? rows : null;
   }
 
-  public async createEmployee(employee: Employee): Promise<any> {
+  public async createEmployee(employee: EmployeeClient): Promise<any> {
     const sql = `INSERT INTO employees 
     (first_name, last_name, department, salary) 
     VALUES ($1, $2, $3, $4) 
@@ -35,7 +35,7 @@ export class EmployeeService {
     return rows.length ? rows[0] : null;
   }
 
-  public async updateEmployee(employee: Employee, id: number): Promise<any> {
+  public async updateEmployee(employee: EmployeeClient, id: number): Promise<any> {
     const sql = `
       UPDATE employees 
       SET first_name = $1, last_name = $2, department = $3, salary = $4

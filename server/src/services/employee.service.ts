@@ -52,4 +52,15 @@ export class EmployeeService {
     ]);
     return rows.length ? rows[0] : null;
   }
+
+  public async deleteEmployee(id: number): Promise<any> {
+    const sql = `
+      DELETE FROM employees 
+      WHERE id = $1
+      RETURNING *;
+    `;
+    const pool = Helper.pool();
+    const { rows } = await pool.query(sql, [id]);
+    return rows.length ? rows[0] : null;
+  }
 }

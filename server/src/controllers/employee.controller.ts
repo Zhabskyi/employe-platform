@@ -2,6 +2,7 @@ import { NextFunction, Request, Response } from 'express';
 import { Container } from 'typedi';
 import { Employee } from '@/interfaces/employee.interface';
 import { EmployeeService } from '@/services/employee.service';
+import { mapEmployeeData, mapSingleEmployeeData } from '@/utilities/schemaHelpers';
 
 export class EmployeeController {
   public employee = Container.get(EmployeeService);
@@ -10,7 +11,7 @@ export class EmployeeController {
     try {
       const getAllPosts: Employee[] = await this.employee.getAllEmployees();
 
-      res.status(200).json({ data: getAllPosts, message: 'success' });
+      res.status(200).json({ data: mapEmployeeData(getAllPosts), message: 'success' });
     } catch (error) {
       next(error);
     }
@@ -21,7 +22,7 @@ export class EmployeeController {
       const employeeData: Employee = req.body;
       const createEmployeeData: Employee = await this.employee.createEmployee(employeeData);
 
-      res.status(201).json({ data: createEmployeeData, message: 'success' });
+      res.status(201).json({ data: mapSingleEmployeeData(createEmployeeData), message: 'success' });
     } catch (error) {
       next(error);
     }
@@ -36,7 +37,7 @@ export class EmployeeController {
       if (!updateEmployeeData) {
         res.status(404).json({ message: 'Employee not found' });
       }
-      res.status(200).json({ data: updateEmployeeData, message: 'success' });
+      res.status(200).json({ data: mapSingleEmployeeData(updateEmployeeData), message: 'success' });
     } catch (error) {
       next(error);
     }
@@ -50,7 +51,11 @@ export class EmployeeController {
       if (!updateEmployeeData) {
         res.status(404).json({ success: false, message: 'Employee not found' });
       }
-      res.status(200).json({ data: updateEmployeeData, success: true, message: 'Employee successfully deleted' });
+      res.status(200).json({
+        data: mapSingleEmployeeData(updateEmployeeData),
+        success: true,
+        message: 'Employee successfully deleted',
+      });
     } catch (error) {
       next(error);
     }

@@ -1,8 +1,11 @@
+import { API_STATUS } from "../api/apiStatus";
 import { RootModel, RootStoreContext } from "./Root";
 
 export const rootStore = RootModel.create({
   employees: {
-    allEmployees: []
+    employees: [],
+    employeesStatus: API_STATUS.IDLE,
+    employeesError: ""
   }
 });
 

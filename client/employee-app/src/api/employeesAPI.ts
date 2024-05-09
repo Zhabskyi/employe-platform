@@ -1,4 +1,4 @@
-import { apiConfig } from "@/config/api.config";
+import { apiConfig } from "../config/api.config";
 import { callAPI } from "./apiUtilities";
 
 export const getEmployeesAPI = () => {

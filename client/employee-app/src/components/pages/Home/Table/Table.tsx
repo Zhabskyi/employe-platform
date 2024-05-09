@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./Table.css";
 import "@ag-grid-community/styles/ag-grid.css";
 import "@ag-grid-community/styles/ag-theme-quartz.css";
@@ -7,6 +7,9 @@ import { ModuleRegistry } from "@ag-grid-community/core";
 import ActionButtons from "./CellRenderers";
 import { GridOptions } from "@ag-grid-community/core";
 import { ClientSideRowModelModule } from "@ag-grid-community/client-side-row-model";
+import { useMst } from "../../../../models/Root";
+import { observer } from "mobx-react-lite";
+import { API_STATUS } from "../../../../api/apiStatus";
 
 const gridOptions: GridOptions = {
   components: {
@@ -17,16 +20,23 @@ const gridOptions: GridOptions = {
 ModuleRegistry.registerModules([ClientSideRowModelModule]);
 
 const Table = () => {
-  const [rowData, setRowData] = useState([
-    { firstName: "Lewis", lastName: "Burson", department: "Sales", salary: 3434, electric: true },
-    { firstName: "Lewis", lastName: "Burson", department: "Sales", salary: 3434, electric: true },
-    { firstName: "Lewis", lastName: "Burson", department: "Sales", salary: 3434, electric: true }
-  ]);
+  const {
+    employees: { employeeData, employeeStatus, getEmployees, employeeError }
+  } = useMst();
+
+  const setupView = async () => {
+    await getEmployees();
+  };
+
+  useEffect(() => {
+    setupView();
+  }, []);
+
   const [columnDefs, setColumnDefs] = useState([
     {
       headerName: "First Name",
       field: "firstName",
-      flex: 2
+      flex: 1
     },
     {
       headerName: "Last Name",
@@ -44,18 +54,24 @@ const Table = () => {
   ]);
 
   return (
-    <div style={{ width: "100%", height: "100%" }}>
-      <div style={{ width: "100%", height: "100%" }} className="ag-theme-quartz">
-        <AgGridReact
-          rowModelType="clientSide"
-          rowHeight={56}
-          rowData={rowData}
-          gridOptions={gridOptions}
-          columnDefs={columnDefs}
-        />
-      </div>
-    </div>
+    <>
+      {employeeStatus === API_STATUS.LOADING && <div>Loading...</div>}
+      {employeeStatus === API_STATUS.ERROR && <div>{employeeError}</div>}
+      {employeeStatus === API_STATUS.SUCCESS && (
+        <div style={{ width: "100%", height: "100%" }}>
+          <div style={{ width: "100%", height: "100%" }} className="ag-theme-quartz">
+            <AgGridReact
+              rowModelType="clientSide"
+              rowHeight={56}
+              rowData={[...employeeData]}
+              gridOptions={gridOptions}
+              columnDefs={columnDefs}
+            />
+          </div>
+        </div>
+      )}
+    </>
   );
 };
 
-export default Table;
+export default observer(Table);

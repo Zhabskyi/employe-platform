@@ -20,7 +20,16 @@ const defaultValues = {
 
 const EmployeeForm: React.FC = () => {
   const {
-    employees: { createEmployee, createEmployeeStatus, resetCreateEmployeeStatus, createEmployeeError }
+    employees: {
+      createEmployee,
+      createEmployeeStatus,
+      resetCreateEmployeeStatus,
+      createEmployeeError,
+      updateEmployee,
+      updateEmployeeStatus,
+      updateEmployeeError,
+      resetUpdateEmployeeStatus
+    }
   } = useMst();
 
   let query = useQuery();
@@ -33,9 +42,11 @@ const EmployeeForm: React.FC = () => {
     firstName: query.get("firstName"),
     lastName: query.get("lastName"),
     department: query.get("department"),
-    salary: query.get("salary"),
-    id: query.get("id")
+    salary: query.get("salary")
   };
+
+  const employeeId = query.get("id");
+
   const {
     handleSubmit,
     control,
@@ -48,11 +59,13 @@ const EmployeeForm: React.FC = () => {
     defaultValues
   });
 
-  const isSubmitting = createEmployeeStatus === API_STATUS.LOADING;
+  const isSubmitting = createEmployeeStatus === API_STATUS.LOADING || updateEmployeeStatus === API_STATUS.LOADING;
+  const isError = createEmployeeStatus === API_STATUS.ERROR || updateEmployeeStatus === API_STATUS.ERROR;
 
   useEffect(() => {
     return () => {
       resetCreateEmployeeStatus();
+      resetUpdateEmployeeStatus();
     };
   }, []);
 
@@ -73,7 +86,8 @@ const EmployeeForm: React.FC = () => {
       department: data.department,
       salary: data.salary
     };
-    const response = await createEmployee(body);
+
+    const response = isEditMode ? await updateEmployee(body, employeeId) : await createEmployee(body);
     if (response?.message === "success") {
       navigate(`/${PATHS.HOME}`);
     }
@@ -81,10 +95,10 @@ const EmployeeForm: React.FC = () => {
 
   return (
     <Grid container sx={{ margin: "48px" }}>
-      {createEmployeeError && (
+      {isError && (
         <Grid container width="100%">
           <Typography variant="h6" color="error">
-            {createEmployeeError}
+            {createEmployeeError ? createEmployeeError : updateEmployeeError}
           </Typography>
         </Grid>
       )}

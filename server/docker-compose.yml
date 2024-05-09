@@ -1,0 +1,57 @@
+version: "3.9"
+
+services:
+  proxy:
+    container_name: proxy
+    image: nginx:alpine
+    ports:
+      - "80:80"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf
+    restart: "unless-stopped"
+    networks:
+      - backend
+
+  server:
+    container_name: server
+    build:
+      context: ./
+      dockerfile: Dockerfile.dev
+    ports:
+      - "8080:8080"
+    environment:
+      DB_HOST: db
+      DB_PORT: 5432
+      DB_DATABASE: postgres
+      DB_USER: postgres
+      DB_PASSWORD: heavy
+    volumes:
+      - ./:/app
+      - /app/node_modules
+    restart: "unless-stopped"
+    networks:
+      - backend
+    depends_on:
+      - db
+
+  db:
+    container_name: postgres_db
+    image: postgres
+    ports:
+      - "5433:5432"  # To avoid conflict with local postgres
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: heavy
+    networks:
+      - backend
+    volumes:
+      - data:/var/lib/postgresql/data
+
+networks:
+  backend:
+    driver: bridge
+
+volumes:
+  data:
+    driver: local

@@ -1,9 +1,10 @@
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
-import { Button, Grid, TextField, Typography } from "@mui/material";
+import { Button, Grid, InputAdornment, TextField, Typography } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import { theme } from "../../../theme/theme";
-import { PATHS } from "../../../utilities/constants";
+import { CreateEmployeeValues, PATHS } from "../../../utilities/constants";
+import { formHandlers } from "../../../utilities/formHandlers";
 
 const defaultValues = {
   firstName: "",
@@ -37,7 +38,6 @@ const EmployeeForm: React.FC = () => {
             <Grid item xs={12} sm={6}>
               <Controller
                 render={({ field }) => {
-                  console.log("field", field);
                   return (
                     <TextField
                       fullWidth
@@ -45,11 +45,14 @@ const EmployeeForm: React.FC = () => {
                       id="firstName"
                       label="First Name"
                       value={field?.value ? field.value : ""}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        formHandlers(field)[CreateEmployeeValues.FIRST_NAME](e.target.value)
+                      }
                     />
                   );
                 }}
                 control={control}
-                name="firstName"
+                name={CreateEmployeeValues.FIRST_NAME}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -62,11 +65,14 @@ const EmployeeForm: React.FC = () => {
                       id="lastName"
                       label="Last Name"
                       value={field?.value ? field.value : ""}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        formHandlers(field)[CreateEmployeeValues.LAST_NAME](e.target.value)
+                      }
                     />
                   );
                 }}
                 control={control}
-                name="lastName"
+                name={CreateEmployeeValues.LAST_NAME}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -79,11 +85,14 @@ const EmployeeForm: React.FC = () => {
                       id="department"
                       label="Department"
                       value={field?.value ? field.value : ""}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        formHandlers(field)[CreateEmployeeValues.DEPARTMENT](e.target.value)
+                      }
                     />
                   );
                 }}
                 control={control}
-                name="department"
+                name={CreateEmployeeValues.DEPARTMENT}
               />
             </Grid>
             <Grid item xs={12} sm={6}>
@@ -96,11 +105,17 @@ const EmployeeForm: React.FC = () => {
                       id="salary"
                       label="Salary"
                       value={field?.value ? field.value : ""}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        formHandlers(field)[CreateEmployeeValues.SALARY](e.target.value)
+                      }
+                      InputProps={{
+                        startAdornment: <InputAdornment position="start">$</InputAdornment>
+                      }}
                     />
                   );
                 }}
                 control={control}
-                name="salary"
+                name={CreateEmployeeValues.SALARY}
               />
             </Grid>
 

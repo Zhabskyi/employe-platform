@@ -3,9 +3,9 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { observer } from "mobx-react-lite";
 import { Button, Grid, InputAdornment, TextField, Typography } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { theme } from "../../../theme/theme";
-import { CreateEmployeeValues, PATHS } from "../../../utilities/constants";
+import { CreateEmployeeValues, EmployeeActionsFromUrl, PATHS } from "../../../utilities/constants";
 import { formHandlers, validationSchema } from "../../../utilities/formHandlers";
 import { useMst } from "../../../models/Root";
 import { API_STATUS } from "../../../api/apiStatus";
@@ -22,13 +22,24 @@ const EmployeeForm: React.FC = () => {
   const {
     employees: { createEmployee, createEmployeeStatus, resetCreateEmployeeStatus }
   } = useMst();
+
   let query = useQuery();
-  let value = query.get("firstName");
-  console.log("value", value);
+  const { action } = useParams();
   const navigate = useNavigate();
+
+  const isEditMode = action === EmployeeActionsFromUrl.Edit;
+
+  const preloadedData = {
+    firstName: query.get("firstName"),
+    lastName: query.get("lastName"),
+    department: query.get("department"),
+    salary: query.get("salary"),
+    id: query.get("id")
+  };
   const {
     handleSubmit,
     control,
+    reset,
     formState: { errors }
   } = useForm({
     mode: "onSubmit",
@@ -44,6 +55,12 @@ const EmployeeForm: React.FC = () => {
       resetCreateEmployeeStatus();
     };
   }, []);
+
+  useEffect(() => {
+    if (isEditMode) {
+      reset(preloadedData);
+    }
+  }, [isEditMode, preloadedData]);
 
   const backToHome = () => {
     navigate(`/${PATHS.HOME}`);
@@ -68,6 +85,9 @@ const EmployeeForm: React.FC = () => {
         Employee Form
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
+        <Typography variant="h6" color={theme.palette.text.primary}>
+          {action === "create" ? "Create Employee" : "Edit Employee"}
+        </Typography>
         <Grid container justifyContent="center" marginTop="48px">
           <Grid container item spacing={3} sx={{ maxWidth: "960px" }}>
             <Grid item xs={12} sm={6}>

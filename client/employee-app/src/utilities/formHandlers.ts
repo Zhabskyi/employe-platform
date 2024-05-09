@@ -31,3 +31,10 @@ export const validationSchema = z.object({
   [CreateEmployeeValues.DEPARTMENT]: z.string().min(2, "Department must be at least 2 characters"),
   [CreateEmployeeValues.SALARY]: z.string().min(1, "Salary cannot be empty")
 });
+
+const defaultValues = {
+  [CreateEmployeeValues.FIRST_NAME]: "",
+  [CreateEmployeeValues.LAST_NAME]: "",
+  [CreateEmployeeValues.DEPARTMENT]: "",
+  [CreateEmployeeValues.SALARY]: ""
+};

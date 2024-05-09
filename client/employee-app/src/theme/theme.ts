@@ -7,11 +7,18 @@ export const theme = createTheme({
     },
     secondary: {
       main: "#F4A261",
-      contrastText: "#1D3557"
+      contrastText: "#1D3557",
+      light: "#fff5ed"
     },
     text: {
       primary: "#1D3557",
       secondary: "#457B9D"
+    },
+    action: {
+      active: "#ba5009"
+    },
+    error: {
+      main: "#e82615"
     }
   },
   typography: {

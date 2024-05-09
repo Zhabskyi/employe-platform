@@ -1,3 +1,4 @@
+import { IEmployeeSchema } from "../models/Employees/Employees";
 import { apiConfig } from "../config/api.config";
 import { callAPI } from "./apiUtilities";
 
@@ -7,12 +8,22 @@ export const getEmployeesAPI = () => {
   });
 };
 
-export const createEmployeeAPI = (body: any) => {
+export const createEmployeeAPI = (body: IEmployeeSchema) => {
   return callAPI(`${apiConfig.employeesUrls}`, {
     headers: {
       "Content-Type": "application/json"
     },
     method: "post",
+    body: JSON.stringify(body)
+  });
+};
+
+export const updateEmployeeAPI = (body: IEmployeeSchema, id: string) => {
+  return callAPI(`${apiConfig.employeesUrls}/${id}`, {
+    headers: {
+      "Content-Type": "application/json"
+    },
+    method: "put",
     body: JSON.stringify(body)
   });
 };

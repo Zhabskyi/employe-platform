@@ -26,12 +26,21 @@ export class EmployeeService {
     return rows.length ? rows[0] : null;
   }
 
-  public async findByNames(firstName: string, lastName: string): Promise<any> {
+  public async findByAllFields(employee: EmployeeClient): Promise<any> {
     const sql = `
-      SELECT * FROM employees WHERE first_name = $1 AND last_name = $2;
+      SELECT * FROM employees 
+      WHERE first_name = $1 
+      AND last_name = $2 
+      AND department = $3 
+      AND salary = $4
     `;
     const pool = Helper.pool();
-    const { rows } = await pool.query(sql, [firstName, lastName]);
+    const { rows } = await pool.query(sql, [
+      employee.firstName,
+      employee.lastName,
+      employee.department,
+      employee.salary,
+    ]);
     return rows.length ? rows[0] : null;
   }
 

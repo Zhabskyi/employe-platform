@@ -3,12 +3,13 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { observer } from "mobx-react-lite";
 import { Button, Grid, InputAdornment, TextField, Typography } from "@mui/material";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { theme } from "../../../theme/theme";
-import { CreateEmployeeValues, PATHS } from "../../../utilities/constants";
+import { CreateEmployeeValues, EmployeeActionsFromUrl, PATHS } from "../../../utilities/constants";
 import { formHandlers, validationSchema } from "../../../utilities/formHandlers";
 import { useMst } from "../../../models/Root";
 import { API_STATUS } from "../../../api/apiStatus";
+import { useQuery } from "../../../hooks/useQuery";
 
 const defaultValues = {
   firstName: "",
@@ -19,13 +20,37 @@ const defaultValues = {
 
 const EmployeeForm: React.FC = () => {
   const {
-    employees: { createEmployee, createEmployeeStatus, resetCreateEmployeeStatus }
+    employees: {
+      createEmployee,
+      createEmployeeStatus,
+      resetCreateEmployeeStatus,
+      createEmployeeError,
+      updateEmployee,
+      updateEmployeeStatus,
+      updateEmployeeError,
+      resetUpdateEmployeeStatus
+    }
   } = useMst();
-  const { employeeId } = useParams();
+
+  let query = useQuery();
+  const { action } = useParams();
   const navigate = useNavigate();
+
+  const isEditMode = action === EmployeeActionsFromUrl.Edit;
+
+  const preloadedData = {
+    firstName: query.get("firstName"),
+    lastName: query.get("lastName"),
+    department: query.get("department"),
+    salary: query.get("salary")
+  };
+
+  const employeeId = query.get("id");
+
   const {
     handleSubmit,
     control,
+    reset,
     formState: { errors }
   } = useForm({
     mode: "onSubmit",
@@ -34,13 +59,21 @@ const EmployeeForm: React.FC = () => {
     defaultValues
   });
 
-  const isSubmitting = createEmployeeStatus === API_STATUS.LOADING;
+  const isSubmitting = createEmployeeStatus === API_STATUS.LOADING || updateEmployeeStatus === API_STATUS.LOADING;
+  const isError = createEmployeeStatus === API_STATUS.ERROR || updateEmployeeStatus === API_STATUS.ERROR;
 
   useEffect(() => {
     return () => {
       resetCreateEmployeeStatus();
+      resetUpdateEmployeeStatus();
     };
   }, []);
+
+  useEffect(() => {
+    if (isEditMode) {
+      reset(preloadedData);
+    }
+  }, [isEditMode]);
 
   const backToHome = () => {
     navigate(`/${PATHS.HOME}`);
@@ -53,18 +86,29 @@ const EmployeeForm: React.FC = () => {
       department: data.department,
       salary: data.salary
     };
-    const response = await createEmployee(body);
-    if (response.message === "success") {
+
+    const response = isEditMode ? await updateEmployee(body, employeeId) : await createEmployee(body);
+    if (response?.message === "success") {
       navigate(`/${PATHS.HOME}`);
     }
   };
 
   return (
     <Grid container sx={{ margin: "48px" }}>
+      {isError && (
+        <Grid container width="100%">
+          <Typography variant="h6" color="error">
+            {createEmployeeError ? createEmployeeError : updateEmployeeError}
+          </Typography>
+        </Grid>
+      )}
       <Typography variant="h3" color={theme.palette.text.primary}>
         Employee Form
       </Typography>
       <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
+        <Typography variant="h6" color={theme.palette.text.primary}>
+          {action === "create" ? "Create Employee" : "Edit Employee"}
+        </Typography>
         <Grid container justifyContent="center" marginTop="48px">
           <Grid container item spacing={3} sx={{ maxWidth: "960px" }}>
             <Grid item xs={12} sm={6}>

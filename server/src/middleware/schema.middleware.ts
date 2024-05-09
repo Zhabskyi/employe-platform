@@ -13,10 +13,9 @@ class SchemaMiddleware {
         await Validator.validateAsync(req.body);
       }
 
-      const { firstName, lastName } = req.body;
-      const existingEmployee = await this.employee.findByNames(firstName, lastName);
+      const existingEmployee = await this.employee.findByAllFields(req.body);
       if (existingEmployee) {
-        next(new HttpException(409, 'An employee with this fist and last name already exists.'));
+        next(new HttpException(409, 'An employee with this data already exists.'));
       }
       return next();
     } catch (error: Joi.ValidationError | any) {

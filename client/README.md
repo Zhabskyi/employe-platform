@@ -15,7 +15,7 @@ To run the microfrontend application using Docker, follow these steps:
 1. Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/microfrontend.git
+git clone https://github.com/Zhabskyi/employee-platform
 ```
 
 2. Navigate to the project directory:

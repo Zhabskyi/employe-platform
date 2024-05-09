@@ -17,7 +17,7 @@ export class EmployeeRoute implements Routes {
     this.router.get(this.path, this.employeeController.getEmployees);
     this.router.post(this.path, this.handleEmployeeValidation, this.employeeController.createEmployee);
     this.router.put(`${this.path}/:id`, this.handleEmployeeValidation, this.employeeController.updateEmployee);
-    this.router.delete(`${this.path}/:id`);
+    this.router.delete(`${this.path}/:id`, this.employeeController.deleteEmployee);
   }
 
   private handleEmployeeValidation(req: Request, res: Response, next: NextFunction) {

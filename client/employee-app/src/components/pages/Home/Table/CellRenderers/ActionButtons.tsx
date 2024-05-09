@@ -16,11 +16,7 @@ const ActionButtons: React.FC = ({ data }: Props) => {
 
   const onEditClick = () => {
     navigate(
-      `/${PATHS.HOME}/${PATHS.EDIT_EMPLOYEE}?
-      firstName=${values.firstName}&
-      lastName=${values.lastName}&
-      department=${values.department}&
-      salary=${values.salary}`
+      `/${PATHS.HOME}/${PATHS.EDIT_EMPLOYEE}?firstName=${values.firstName}&lastName=${values.lastName}&department=${values.department}&salary=${values.salary}`
     );
   };
   return (

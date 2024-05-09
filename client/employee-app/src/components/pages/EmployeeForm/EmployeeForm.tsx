@@ -3,12 +3,13 @@ import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { observer } from "mobx-react-lite";
 import { Button, Grid, InputAdornment, TextField, Typography } from "@mui/material";
-import { useParams, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { theme } from "../../../theme/theme";
 import { CreateEmployeeValues, PATHS } from "../../../utilities/constants";
 import { formHandlers, validationSchema } from "../../../utilities/formHandlers";
 import { useMst } from "../../../models/Root";
 import { API_STATUS } from "../../../api/apiStatus";
+import { useQuery } from "../../../hooks/useQuery";
 
 const defaultValues = {
   firstName: "",
@@ -21,7 +22,9 @@ const EmployeeForm: React.FC = () => {
   const {
     employees: { createEmployee, createEmployeeStatus, resetCreateEmployeeStatus }
   } = useMst();
-  const { employeeId } = useParams();
+  let query = useQuery();
+  let value = query.get("firstName");
+  console.log("value", value);
   const navigate = useNavigate();
   const {
     handleSubmit,

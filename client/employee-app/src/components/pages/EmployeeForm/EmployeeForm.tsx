@@ -1,8 +1,9 @@
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import { Button, Grid, TextField, Typography } from "@mui/material";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { theme } from "../../../theme/theme";
+import { PATHS } from "../../../utilities/constants";
 
 const defaultValues = {
   firstName: "",
@@ -13,9 +14,14 @@ const defaultValues = {
 
 const EmployeeForm: React.FC = () => {
   const { employeeId } = useParams();
+  const navigate = useNavigate();
   const { handleSubmit, reset, watch, control, register } = useForm({
     defaultValues
   });
+
+  const backToHome = () => {
+    navigate(`/${PATHS.HOME}`);
+  };
 
   console.log("employeeId", employeeId);
   const onSubmit = (data) => console.log(data);
@@ -100,7 +106,7 @@ const EmployeeForm: React.FC = () => {
 
             <Grid container item xs={12} spacing={2} justifyContent="flex-end">
               <Grid item>
-                <Button variant="contained" color="secondary" onClick={() => {}}>
+                <Button variant="contained" color="secondary" onClick={backToHome}>
                   Cancel
                 </Button>
               </Grid>

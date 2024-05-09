@@ -1,4 +1,5 @@
 import { CreateEmployeeValues, DECIMAL_REGEX } from "./constants";
+import { z } from "zod";
 
 export const isValidNumber = (value: string | undefined | null) => {
   if (value === null || !value) return "";
@@ -23,3 +24,10 @@ export const formHandlers = (field: any) => {
     }
   };
 };
+
+export const validationSchema = z.object({
+  [CreateEmployeeValues.FIRST_NAME]: z.string().min(2, "First name must be at least 2 characters"),
+  [CreateEmployeeValues.LAST_NAME]: z.string().min(2, "Last name must be at least 2 characters"),
+  [CreateEmployeeValues.DEPARTMENT]: z.string().min(2, "Department must be at least 2 characters"),
+  [CreateEmployeeValues.SALARY]: z.string().min(1, "Salary cannot be empty")
+});

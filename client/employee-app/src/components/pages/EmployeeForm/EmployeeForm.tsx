@@ -1,11 +1,12 @@
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { observer } from "mobx-react-lite";
 import { Button, Grid, InputAdornment, TextField, Typography } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import { theme } from "../../../theme/theme";
 import { CreateEmployeeValues, PATHS } from "../../../utilities/constants";
-import { formHandlers } from "../../../utilities/formHandlers";
+import { formHandlers, validationSchema } from "../../../utilities/formHandlers";
 import { useMst } from "../../../models/Root";
 
 const defaultValues = {
@@ -21,7 +22,14 @@ const EmployeeForm: React.FC = () => {
   } = useMst();
   const { employeeId } = useParams();
   const navigate = useNavigate();
-  const { handleSubmit, reset, watch, control, register } = useForm({
+  const {
+    handleSubmit,
+    control,
+    formState: { errors }
+  } = useForm({
+    mode: "onSubmit",
+    reValidateMode: "onChange",
+    resolver: zodResolver(validationSchema),
     defaultValues
   });
 
@@ -61,6 +69,8 @@ const EmployeeForm: React.FC = () => {
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         formHandlers(field)[CreateEmployeeValues.FIRST_NAME](e.target.value)
                       }
+                      helperText={errors[CreateEmployeeValues.FIRST_NAME]?.message}
+                      error={errors[CreateEmployeeValues.FIRST_NAME] ? true : false}
                     />
                   );
                 }}
@@ -81,6 +91,8 @@ const EmployeeForm: React.FC = () => {
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         formHandlers(field)[CreateEmployeeValues.LAST_NAME](e.target.value)
                       }
+                      helperText={errors[CreateEmployeeValues.LAST_NAME]?.message}
+                      error={errors[CreateEmployeeValues.LAST_NAME] ? true : false}
                     />
                   );
                 }}
@@ -101,6 +113,8 @@ const EmployeeForm: React.FC = () => {
                       onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
                         formHandlers(field)[CreateEmployeeValues.DEPARTMENT](e.target.value)
                       }
+                      helperText={errors[CreateEmployeeValues.DEPARTMENT]?.message}
+                      error={errors[CreateEmployeeValues.DEPARTMENT] ? true : false}
                     />
                   );
                 }}
@@ -124,6 +138,8 @@ const EmployeeForm: React.FC = () => {
                       InputProps={{
                         startAdornment: <InputAdornment position="start">$</InputAdornment>
                       }}
+                      helperText={errors[CreateEmployeeValues.SALARY]?.message}
+                      error={errors[CreateEmployeeValues.SALARY] ? true : false}
                     />
                   );
                 }}
@@ -151,4 +167,4 @@ const EmployeeForm: React.FC = () => {
   );
 };
 
-export default EmployeeForm;
+export default observer(EmployeeForm);

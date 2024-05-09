@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "start": "npm run build && cross-env NODE_ENV=production node dist/server.js",
-    "dev": "npx ts-node src/db/init-db.ts && cross-env NODE_ENV=development nodemon",
+    "dev": "npx ts-node src/db/migrations/init-db.ts && cross-env NODE_ENV=development nodemon",
     "build:tsc": "tsc && tsc-alias",
     "test": "jest --forceExit --detectOpenHandles",
     "lint": "eslint --ignore-path .gitignore --ext .ts src/",

@@ -21,7 +21,7 @@ export class EmployeeController {
       const employeeData: Employee = req.body;
       const createEmployeeData: Employee = await this.employee.createEmployee(employeeData);
 
-      res.status(201).json({ data: createEmployeeData, message: 'created' });
+      res.status(201).json({ data: createEmployeeData, message: 'success' });
     } catch (error) {
       next(error);
     }

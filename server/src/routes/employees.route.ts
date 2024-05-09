@@ -1,20 +1,26 @@
-import { Router } from 'express';
+import { Router, Response, Request, NextFunction } from 'express';
 import { Routes } from '@interfaces/routes.interface';
 import { EmployeeController } from '@/controllers/employee.controller';
+import EmployeeValidator from '@/validators/employee.validator';
+import SchemaMiddleware from '@/middleware/schema.middleware';
 
 export class EmployeeRoute implements Routes {
   public path = '/employees';
   public router: Router = Router();
-  public employee = new EmployeeController();
+  public employeeController = new EmployeeController();
 
   constructor() {
     this.initializeRoutes();
   }
 
   private initializeRoutes() {
-    this.router.get(`${this.path}`, this.employee.getEmployees);
-    this.router.post(`${this.path}`, this.employee.createEmployee);
+    this.router.get(this.path, this.employeeController.getEmployees);
+    this.router.post(this.path, this.handleEmployeeValidation, this.employeeController.createEmployee);
     this.router.put(`${this.path}/:id`);
     this.router.delete(`${this.path}/:id`);
+  }
+
+  private handleEmployeeValidation(req: Request, res: Response, next: NextFunction) {
+    SchemaMiddleware.handle(req, res, next, EmployeeValidator.employee());
   }
 }

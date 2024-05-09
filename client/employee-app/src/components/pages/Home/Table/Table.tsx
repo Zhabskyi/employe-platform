@@ -25,6 +25,8 @@ const Table = () => {
     employees: { employeeData, employeeStatus, getEmployees, employeeError }
   } = useMst();
 
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState<boolean>(false);
+
   const setupView = async () => {
     await getEmployees();
   };
@@ -32,6 +34,10 @@ const Table = () => {
   useEffect(() => {
     setupView();
   }, []);
+
+  const openDeleteModal = () => {
+    setIsDeleteModalOpen(true);
+  };
 
   return (
     <>
@@ -41,6 +47,7 @@ const Table = () => {
         <div style={{ width: "100%", height: "100%" }}>
           <div style={{ width: "100%", height: "100%" }} className="ag-theme-quartz">
             <AgGridReact
+              context={{ openDeleteModal }}
               rowModelType="clientSide"
               rowHeight={56}
               rowData={[...employeeData]}

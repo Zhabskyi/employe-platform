@@ -11,7 +11,7 @@ interface Props {
   handleClose: () => void;
 }
 
-export default function DeleteConfirmationModal({ open, handleClose }: Props) {
+const DeleteConfirmationModal = ({ open, handleClose }: Props) => {
   return (
     <Dialog
       open={open}
@@ -19,19 +19,22 @@ export default function DeleteConfirmationModal({ open, handleClose }: Props) {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-      <DialogTitle id="alert-dialog-title">{"Use Google's location service?"}</DialogTitle>
+      <DialogTitle id="alert-dialog-title" color="error">
+        DELETE EMPLOYEE
+      </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Let Google help apps determine location. This means sending anonymous location data to Google, even when no
-          apps are running.
+          Employee will be deleted permanently. Are you sure you want to delete this employee?
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={handleClose}>Disagree</Button>
+        <Button onClick={handleClose}>Cancel</Button>
         <Button onClick={handleClose} autoFocus>
-          Agree
+          Delete
         </Button>
       </DialogActions>
     </Dialog>
   );
-}
+};
+
+export default DeleteConfirmationModal;

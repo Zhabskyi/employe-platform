@@ -26,4 +26,16 @@ export class EmployeeController {
       next(error);
     }
   };
+
+  public updateEmployee = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const id: string = req.params.id;
+      const employeeData: Employee = req.body;
+      const updateEmployeeData: Employee = await this.employee.updateEmployee(employeeData, id);
+
+      res.status(200).json({ data: updateEmployeeData, message: 'success' });
+    } catch (error) {
+      next(error);
+    }
+  };
 }

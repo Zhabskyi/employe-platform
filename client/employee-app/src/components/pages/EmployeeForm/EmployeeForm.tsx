@@ -1,10 +1,12 @@
 import React from "react";
 import { Controller, useForm } from "react-hook-form";
+import { observer } from "mobx-react-lite";
 import { Button, Grid, InputAdornment, TextField, Typography } from "@mui/material";
 import { useParams, useNavigate } from "react-router-dom";
 import { theme } from "../../../theme/theme";
 import { CreateEmployeeValues, PATHS } from "../../../utilities/constants";
 import { formHandlers } from "../../../utilities/formHandlers";
+import { useMst } from "../../../models/Root";
 
 const defaultValues = {
   firstName: "",
@@ -14,6 +16,9 @@ const defaultValues = {
 };
 
 const EmployeeForm: React.FC = () => {
+  const {
+    employees: { createEmployee }
+  } = useMst();
   const { employeeId } = useParams();
   const navigate = useNavigate();
   const { handleSubmit, reset, watch, control, register } = useForm({
@@ -25,7 +30,15 @@ const EmployeeForm: React.FC = () => {
   };
 
   console.log("employeeId", employeeId);
-  const onSubmit = (data) => console.log(data);
+  const onSubmit = async (data) => {
+    const body = {
+      firstName: data.firstName,
+      lastName: data.lastName,
+      department: data.department,
+      salary: data.salary
+    };
+    await createEmployee(body);
+  };
 
   return (
     <Grid container sx={{ margin: "48px" }}>

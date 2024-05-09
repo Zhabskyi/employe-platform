@@ -5,7 +5,9 @@ export const rootStore = RootModel.create({
   employees: {
     employees: [],
     employeesStatus: API_STATUS.IDLE,
-    employeesError: ""
+    createEmployeeStatus: API_STATUS.IDLE,
+    employeesError: "",
+    createEmployeeError: ""
   }
 });
 

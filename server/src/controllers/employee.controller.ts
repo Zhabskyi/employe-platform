@@ -15,4 +15,15 @@ export class EmployeeController {
       next(error);
     }
   };
+
+  public createEmployee = async (req: Request, res: Response, next: NextFunction) => {
+    try {
+      const employeeData: Employee = req.body;
+      const createEmployeeData: Employee = await this.employee.createEmployee(employeeData);
+
+      res.status(201).json({ data: createEmployeeData, message: 'created' });
+    } catch (error) {
+      next(error);
+    }
+  };
 }

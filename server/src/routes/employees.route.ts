@@ -13,7 +13,7 @@ export class EmployeeRoute implements Routes {
 
   private initializeRoutes() {
     this.router.get(`${this.path}`, this.employee.getEmployees);
-    this.router.post(`${this.path}`);
+    this.router.post(`${this.path}`, this.employee.createEmployee);
     this.router.put(`${this.path}/:id`);
     this.router.delete(`${this.path}/:id`);
   }

@@ -73,7 +73,7 @@ const EmployeeForm: React.FC = () => {
     if (isEditMode) {
       reset(preloadedData);
     }
-  }, [isEditMode, preloadedData]);
+  }, [isEditMode]);
 
   const backToHome = () => {
     navigate(`/${PATHS.HOME}`);

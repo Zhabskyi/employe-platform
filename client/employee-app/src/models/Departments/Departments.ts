@@ -1,5 +1,5 @@
 import { API_STATUS } from "../../api/apiStatus";
-import { getEmployeesAPI } from "../../api/departmentsAPI";
+import { getDepartmentsAPI } from "../../api/departmentsAPI";
 import { flow, Instance, types } from "mobx-state-tree";
 
 export const Department = types.model({
@@ -27,11 +27,11 @@ export const Departments = types
     }
   }))
   .actions((self) => ({
-    getEmployeesAPI: flow(function* getEmployees() {
+    getDepartments: flow(function* getDepartments() {
       self.departmentsStatus = API_STATUS.LOADING;
 
       try {
-        const data = yield getEmployeesAPI();
+        const data = yield getDepartmentsAPI();
         self.departments = data.data;
         self.departmentsStatus = API_STATUS.SUCCESS;
       } catch (error) {

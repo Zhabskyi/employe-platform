@@ -2,7 +2,19 @@ import React, { useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { observer } from "mobx-react-lite";
-import { Button, Grid, InputAdornment, TextField, Typography } from "@mui/material";
+import {
+  Button,
+  FormControl,
+  FormHelperText,
+  Grid,
+  InputAdornment,
+  InputLabel,
+  MenuItem,
+  Select,
+  Skeleton,
+  TextField,
+  Typography
+} from "@mui/material";
 import { useNavigate, useParams } from "react-router-dom";
 import { theme } from "../../../theme/theme";
 import { CreateEmployeeValues, EmployeeActionsFromUrl, PATHS } from "../../../utilities/constants";
@@ -29,7 +41,8 @@ const EmployeeForm: React.FC = () => {
       updateEmployeeStatus,
       updateEmployeeError,
       resetUpdateEmployeeStatus
-    }
+    },
+    departments: { getDepartments, departmentsData }
   } = useMst();
 
   let query = useQuery();
@@ -62,7 +75,12 @@ const EmployeeForm: React.FC = () => {
   const isSubmitting = createEmployeeStatus === API_STATUS.LOADING || updateEmployeeStatus === API_STATUS.LOADING;
   const isError = createEmployeeStatus === API_STATUS.ERROR || updateEmployeeStatus === API_STATUS.ERROR;
 
+  const setupView = async () => {
+    await getDepartments();
+  };
+
   useEffect(() => {
+    setupView();
     return () => {
       resetCreateEmployeeStatus();
       resetUpdateEmployeeStatus();
@@ -86,6 +104,7 @@ const EmployeeForm: React.FC = () => {
       department: data.department,
       salary: data.salary
     };
+    console.log("body", body);
 
     const response = isEditMode ? await updateEmployee(body, employeeId) : await createEmployee(body);
     if (response?.success) {
@@ -156,26 +175,42 @@ const EmployeeForm: React.FC = () => {
               />
             </Grid>
             <Grid item xs={12} sm={6}>
-              <Controller
-                render={({ field }) => {
-                  return (
-                    <TextField
-                      fullWidth
-                      placeholder="Department"
-                      id="department"
-                      label="Department"
-                      value={field?.value ? field.value : ""}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        formHandlers(field)[CreateEmployeeValues.DEPARTMENT](e.target.value)
-                      }
-                      helperText={errors[CreateEmployeeValues.DEPARTMENT]?.message}
-                      error={errors[CreateEmployeeValues.DEPARTMENT] ? true : false}
-                    />
-                  );
-                }}
-                control={control}
-                name={CreateEmployeeValues.DEPARTMENT}
-              />
+              {departmentsData.length === 0 ? (
+                <Skeleton variant="rounded" width="100%" height="100%" />
+              ) : (
+                <Controller
+                  render={({ field }) => {
+                    return (
+                      <FormControl fullWidth>
+                        <InputLabel>Department</InputLabel>
+                        <Select
+                          id="department"
+                          value={field?.value ? field.value : ""}
+                          label="Department"
+                          onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                            formHandlers(field)[CreateEmployeeValues.DEPARTMENT](e.target.value);
+                          }}
+                          error={errors[CreateEmployeeValues.DEPARTMENT] ? true : false}
+                        >
+                          <MenuItem value="">
+                            <em>None</em>
+                          </MenuItem>
+                          {[...departmentsData].map((d) => (
+                            <MenuItem key={d.id} value={d.name}>
+                              {d.name}
+                            </MenuItem>
+                          ))}
+                        </Select>
+                        <FormHelperText sx={{ color: theme.palette.error.main }}>
+                          {errors[CreateEmployeeValues.DEPARTMENT]?.message}
+                        </FormHelperText>
+                      </FormControl>
+                    );
+                  }}
+                  control={control}
+                  name={CreateEmployeeValues.DEPARTMENT}
+                />
+              )}
             </Grid>
             <Grid item xs={12} sm={6}>
               <Controller

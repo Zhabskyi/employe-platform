@@ -2,9 +2,11 @@ import { Instance, types } from "mobx-state-tree";
 import { createContext, useContext } from "react";
 
 import { Employees } from "./Employees";
+import { Departments } from "./Departments";
 
 export const RootModel = types.model("RootModel", {
-  employees: Employees
+  employees: Employees,
+  departments: Departments
 });
 
 export interface RootInstance extends Instance<typeof RootModel> {}

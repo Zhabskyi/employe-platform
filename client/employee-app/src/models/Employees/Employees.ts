@@ -40,6 +40,9 @@ export const Employees = types
     },
     get employeeError() {
       return self.employeesError;
+    },
+    getEmployeeById(id: number) {
+      return self.employees.find((employee) => employee.id === id);
     }
   }))
   .actions((self) => ({

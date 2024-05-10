@@ -16,8 +16,10 @@ interface Props {
 
 const DeleteConfirmationModal = ({ open, handleClose, selectedEmployeeId }: Props) => {
   const {
-    employees: { deleteEmployee }
+    employees: { deleteEmployee, getEmployeeById }
   } = useMst();
+
+  const employee = getEmployeeById(selectedEmployeeId);
 
   const handleDeleteEmployee = async () => {
     await deleteEmployee(selectedEmployeeId);
@@ -36,7 +38,8 @@ const DeleteConfirmationModal = ({ open, handleClose, selectedEmployeeId }: Prop
       </DialogTitle>
       <DialogContent>
         <DialogContentText id="alert-dialog-description">
-          Employee will be deleted permanently. Are you sure you want to delete this employee?
+          Do you want to delete <strong>{`${employee?.firstName} ${employee?.lastName}`}</strong>? Employee from the
+          list will be deleted permanently.
         </DialogContentText>
       </DialogContent>
       <DialogActions>

@@ -1,27 +1,111 @@
-# Take-home Assignment (Full Stack) #
+# Employee Platform
 
-### Goal: ###
-* Create an Employee Table web application
-* Use any front-end framework (Angular, React, Vue, etc...) or CSS library to accomplish this
-* Implement the back-end API with the back-end framework of your choice, and a SQL database
-* What we're looking for is your demonstration of best practices in terms of UI design, organization, code style, GIT commits, and documentation
+Employee Table web application.
 
-### Functional Requirements: ###
-* Initially, list all employees that are in data.json
-    * First name, last name, department, and salary in currency format (i.e. $42,000)
-* Implement the following CRUD operations
-    * The ability to edit an employee
-        * The department field must be a dropdown, with its values pulled from the database
-    * The ability to delete an employee
-    * The ability to create a new employee
-    * Add validations as necessary
+- Implemented the following CRUD operations
+  - Edit an employee
+    - The department field is dropdown, with its values pulled from the database
+  - Delete an employee
+  - Create a new employee
+  - Validations added on server and client
 
-### Technical Guidelines: ###
-* Structure your application and components in a modular/reusable way
-* Commit code with useful and informative comments
-* Your application doesn't have to use the data.json file directly, but have a SQL script to initialize your database with data found in that file
-* Implement API code to read and write to a SQL database
-* Styling: CSS or SCSS or SASS can be used, whichever you prefer (can use popular UI frameworks like Bootstrap as well)
-* You can use any supporting libraries you'd like.
-* You decide what's the best UI/UX. Use your imagination.
-* While anything beyond the minimum requirements might impress us, make sure you complete the base requirements first, and deliver on time.
+## Getting Started
+
+1. Navigate to the client directory:
+
+```bash
+cd client
+```
+
+2. Build the images and starts micro front-end app on port: 3000:
+
+```bash
+docker-compose up --build
+```
+
+3. From root navigate to the server directory:
+
+```bash
+cd server
+```
+
+4. Build the images and starts server app on port: 8080:
+
+```bash
+docker-compose up --build
+```
+
+5. App up and running on [http://localhost:3000](http://localhost:3000)
+
+## Alternative way to start application
+
+### Starting server using environment variables
+
+1. Start locally pgAdmin4. You need to set up your local environment variables for development. Add the following configurations to `.env.development.local` file:
+
+```plaintext
+# DATABASE CONFIGURATION
+DB_HOST=localhost
+DB_USER=postgres
+DB_PASSWORD=yourPassword
+DB_PORT=5432
+DB_DATABASE=postgres
+```
+
+2. Install dependencies
+
+```bash
+pnpm install
+```
+
+3. Inside server folder run command:
+
+```bash
+pnpm run dev
+```
+
+### Starting client
+
+1. Navigate to orchestrator repository
+
+```bash
+cd client/orchestrator
+```
+
+2. Install dependencies
+
+```bash
+pnpm install
+```
+
+3. Start the server on port 3000:
+
+```bash
+pnpm run start
+```
+
+## Client Dependencies
+
+- React
+- Material UI
+- single-spa
+- Ag-Grid
+- React-Hook-Forms
+- MobX
+- react-router
+- zod
+- motion
+
+## Server Dependencies
+
+- Express
+- Bcrypt
+- Cors
+- Helmet
+- Dotenv
+- Joi
+- pg
+- morgan
+- typedi
+
+### More information can be founded in README files in client and server repos accordingly

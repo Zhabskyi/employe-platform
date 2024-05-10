@@ -11,7 +11,7 @@ export class EmployeeController {
     try {
       const getAllPosts: Employee[] = await this.employee.getAllEmployees();
 
-      res.status(200).json({ data: mapEmployeeData(getAllPosts), message: 'success' });
+      res.status(200).json({ data: mapEmployeeData(getAllPosts), message: 'success', success: true });
     } catch (error) {
       next(error);
     }
@@ -22,7 +22,7 @@ export class EmployeeController {
       const employeeData: EmployeeClient = req.body;
       const createEmployeeData: Employee = await this.employee.createEmployee(employeeData);
 
-      res.status(201).json({ data: mapSingleEmployeeData(createEmployeeData), message: 'success' });
+      res.status(201).json({ data: mapSingleEmployeeData(createEmployeeData), message: 'success', success: true });
     } catch (error) {
       next(error);
     }

@@ -5,7 +5,7 @@ const Operations: React.FC = () => {
   return (
     <S.Container>
       <Typography variant="h3" color="secondary">
-        OPERATIONS
+        Operations
       </Typography>
       <Grid container alignItems="center">
         <S.StyledLink to="/employees">

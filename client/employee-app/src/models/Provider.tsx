@@ -7,9 +7,11 @@ export const rootStore = RootModel.create({
     employeesStatus: API_STATUS.IDLE,
     createEmployeeStatus: API_STATUS.IDLE,
     updateEmployeeStatus: API_STATUS.IDLE,
+    deleteEmployeeStatus: API_STATUS.IDLE,
     employeesError: "",
     createEmployeeError: "",
-    updateEmployeeError: ""
+    updateEmployeeError: "",
+    deleteEmployeeError: ""
   }
 });
 

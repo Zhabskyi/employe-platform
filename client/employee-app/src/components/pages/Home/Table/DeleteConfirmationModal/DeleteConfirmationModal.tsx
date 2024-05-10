@@ -5,13 +5,25 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import { useMst } from "../../../../../models/Root";
+import { observer } from "mobx-react-lite";
 
 interface Props {
   open: boolean;
   handleClose: () => void;
+  selectedEmployeeId: number;
 }
 
-const DeleteConfirmationModal = ({ open, handleClose }: Props) => {
+const DeleteConfirmationModal = ({ open, handleClose, selectedEmployeeId }: Props) => {
+  const {
+    employees: { deleteEmployee }
+  } = useMst();
+
+  const handleDeleteEmployee = async () => {
+    await deleteEmployee(selectedEmployeeId);
+    handleClose();
+  };
+
   return (
     <Dialog
       open={open}
@@ -29,7 +41,7 @@ const DeleteConfirmationModal = ({ open, handleClose }: Props) => {
       </DialogContent>
       <DialogActions>
         <Button onClick={handleClose}>Cancel</Button>
-        <Button onClick={handleClose} autoFocus>
+        <Button onClick={handleDeleteEmployee} autoFocus>
           Delete
         </Button>
       </DialogActions>
@@ -37,4 +49,4 @@ const DeleteConfirmationModal = ({ open, handleClose }: Props) => {
   );
 };
 
-export default DeleteConfirmationModal;
+export default observer(DeleteConfirmationModal);

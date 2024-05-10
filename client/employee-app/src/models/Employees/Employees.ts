@@ -1,5 +1,5 @@
 import { API_STATUS } from "../../api/apiStatus";
-import { getEmployeesAPI, createEmployeeAPI, updateEmployeeAPI } from "../../api/employeesAPI";
+import { getEmployeesAPI, createEmployeeAPI, updateEmployeeAPI, deleteEmployeeAPI } from "../../api/employeesAPI";
 import { flow, Instance, types } from "mobx-state-tree";
 
 export const Employee = types.model({
@@ -25,9 +25,11 @@ export const Employees = types
     employeesStatus: types.optional(types.enumeration(Object.values(API_STATUS)), API_STATUS.IDLE),
     createEmployeeStatus: types.optional(types.enumeration(Object.values(API_STATUS)), API_STATUS.IDLE),
     updateEmployeeStatus: types.optional(types.enumeration(Object.values(API_STATUS)), API_STATUS.IDLE),
+    deleteEmployeeStatus: types.optional(types.enumeration(Object.values(API_STATUS)), API_STATUS.IDLE),
     employeesError: types.optional(types.string, ""),
     createEmployeeError: types.optional(types.string, ""),
-    updateEmployeeError: types.optional(types.string, "")
+    updateEmployeeError: types.optional(types.string, ""),
+    deleteEmployeeError: types.optional(types.string, "")
   })
   .views((self) => ({
     get employeeData() {
@@ -81,6 +83,23 @@ export const Employees = types
         self.updateEmployeeStatus = API_STATUS.ERROR;
       }
     }),
+    deleteEmployee: flow(function* deleteEmployee(id: number) {
+      self.deleteEmployeeStatus = API_STATUS.LOADING;
+
+      try {
+        const result = yield deleteEmployeeAPI(id);
+        const deleteEmployee = self.employees.find((employee) => employee.id === id);
+        if (deleteEmployee) {
+          self.employees.remove(deleteEmployee);
+        }
+        self.deleteEmployeeStatus = API_STATUS.SUCCESS;
+        return result;
+      } catch (error) {
+        self.updateEmployeeError =
+          error?.message || "An error occurred and we were unable to delete employee. Please try again.";
+        self.deleteEmployeeStatus = API_STATUS.ERROR;
+      }
+    }),
     resetCreateEmployeeStatus() {
       self.createEmployeeStatus = API_STATUS.IDLE;
       self.createEmployeeError = "";
@@ -88,5 +107,9 @@ export const Employees = types
     resetUpdateEmployeeStatus() {
       self.updateEmployeeStatus = API_STATUS.IDLE;
       self.updateEmployeeError = "";
+    },
+    resetDeleteEmployeeStatus() {
+      self.deleteEmployeeStatus = API_STATUS.IDLE;
+      self.deleteEmployeeError = "";
     }
   }));

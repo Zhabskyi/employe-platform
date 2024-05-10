@@ -9,7 +9,7 @@ import { IEmployee } from "../../../../../models/Employees/Employees";
 interface Props {
   data: IEmployee;
   context: {
-    openDeleteModal: () => void;
+    openDeleteModal: (id: number) => void;
   };
 }
 
@@ -31,7 +31,7 @@ const ActionButtons: React.FC = ({ data, context }: Props) => {
         </S.StyledButton>
       </Grid>
       <Grid item xs={6}>
-        <S.StyledButton variant="outlined" color="info" onClick={openDeleteModal}>
+        <S.StyledButton variant="outlined" color="info" onClick={() => openDeleteModal(values.id)}>
           <DeleteIcon color="error" />
         </S.StyledButton>
       </Grid>

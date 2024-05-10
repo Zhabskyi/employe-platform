@@ -27,3 +27,9 @@ export const updateEmployeeAPI = (body: IEmployeeSchema, id: string) => {
     body: JSON.stringify(body)
   });
 };
+
+export const deleteEmployeeAPI = (id: number) => {
+  return callAPI(`${apiConfig.employeesUrls}/${id}`, {
+    method: "delete"
+  });
+};

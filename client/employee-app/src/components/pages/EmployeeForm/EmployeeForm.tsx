@@ -88,7 +88,7 @@ const EmployeeForm: React.FC = () => {
     };
 
     const response = isEditMode ? await updateEmployee(body, employeeId) : await createEmployee(body);
-    if (response?.message === "success") {
+    if (response?.success) {
       navigate(`/${PATHS.HOME}`);
     }
   };

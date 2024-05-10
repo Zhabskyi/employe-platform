@@ -37,7 +37,9 @@ export class EmployeeController {
       if (!updateEmployeeData) {
         res.status(404).json({ message: 'Employee not found' });
       }
-      res.status(200).json({ data: mapSingleEmployeeData(updateEmployeeData), message: 'success' });
+      res
+        .status(200)
+        .json({ data: mapSingleEmployeeData(updateEmployeeData), message: 'Employee updated', success: true });
     } catch (error) {
       next(error);
     }

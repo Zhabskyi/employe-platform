@@ -1,4 +1,4 @@
-# Microfrontend Application
+# Employee Application
 
 This project is a microfrontend application that utilizes Docker for running the micro front-ends.
 
@@ -21,7 +21,7 @@ git clone https://github.com/Zhabskyi/employee-platform
 2. Navigate to the project directory:
 
 ```bash
-cd microfrontend
+cd client
 ```
 
 3. Build the images and starts micro front-end app on port: 3000:
@@ -37,3 +37,17 @@ docker-compose down
 ```
 
 5. Open your browser and visit [http://localhost:3000](http://localhost:3000) to see the micro front-end application in action.
+
+## Screenshots
+
+Landing page dashboard, contain links to other micro front-ends
+
+![dahsboard](/client/screenshots/dashboard.png)
+
+Employees app landing page
+
+![Screenshot 2](/client/screenshots/employee-app_1.png)
+
+EEdit employee data
+
+![Screenshot 2](/client/screenshots/employee-app_2.png)

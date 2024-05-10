@@ -12,6 +12,11 @@ export const rootStore = RootModel.create({
     createEmployeeError: "",
     updateEmployeeError: "",
     deleteEmployeeError: ""
+  },
+  departments: {
+    departments: [],
+    departmentsStatus: API_STATUS.IDLE,
+    departmentsError: ""
   }
 });
 

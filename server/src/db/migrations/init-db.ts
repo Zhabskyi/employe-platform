@@ -2,9 +2,10 @@ import Helper from '../helper';
 
 const queryDrop = `
 DROP TABLE IF EXISTS employees;
+DROP TABLE IF EXISTS departments;
 `;
 
-const queryCreate = `
+const queryCreateEmployees = `
 CREATE TABLE employees (
   id SERIAL PRIMARY KEY,
   first_name VARCHAR(255) NOT NULL,
@@ -14,7 +15,14 @@ CREATE TABLE employees (
 );
 `;
 
-const querySeed = `
+const queryCreateDepartments = `
+CREATE TABLE departments (
+  id SERIAL PRIMARY KEY,
+  name VARCHAR(255) NOT NULL
+);
+`;
+
+const querySeedEmployees = `
 INSERT INTO employees (first_name, last_name, department, salary) VALUES
 ('Lewis', 'Burson', 'Sales', 40700),
 ('Ian', 'Malcolm', 'Marketing', 70000),
@@ -25,15 +33,26 @@ INSERT INTO employees (first_name, last_name, department, salary) VALUES
 ('Laura', 'Burnett', 'IT', 80000);
 `;
 
+const querySeedDepartments = `
+INSERT INTO departments (name) VALUES
+('Sales'),
+('Marketing'),
+('HR'),
+('IT'),
+('Finance');
+`;
+
 const dropTable = async () => {
   try {
     const pool = Helper.pool();
     await pool.query(queryDrop);
-    await pool.query(queryCreate);
-    await pool.query(querySeed);
-    console.log('Table created successfully');
+    await pool.query(queryCreateEmployees);
+    await pool.query(queryCreateDepartments);
+    await pool.query(querySeedEmployees);
+    await pool.query(querySeedDepartments);
+    console.log('Tables created successfully');
   } catch (err) {
-    console.error('Error creating table:', err);
+    console.error('Error creating tables:', err);
   }
 };
 

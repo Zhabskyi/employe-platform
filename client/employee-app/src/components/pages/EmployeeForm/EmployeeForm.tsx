@@ -106,10 +106,10 @@ const EmployeeForm: React.FC = () => {
     };
     console.log("body", body);
 
-    // const response = isEditMode ? await updateEmployee(body, employeeId) : await createEmployee(body);
-    // if (response?.success) {
-    //   navigate(`/${PATHS.HOME}`);
-    // }
+    const response = isEditMode ? await updateEmployee(body, employeeId) : await createEmployee(body);
+    if (response?.success) {
+      navigate(`/${PATHS.HOME}`);
+    }
   };
 
   return (

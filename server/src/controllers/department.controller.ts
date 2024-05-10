@@ -10,7 +10,7 @@ export class DepartmentController {
     try {
       const data: Department[] = await this.department.getAllDepartments();
 
-      res.status(200).json({ data: data, message: 'success' });
+      res.status(200).json({ data: data, message: 'departments', success: true });
     } catch (error) {
       next(error);
     }

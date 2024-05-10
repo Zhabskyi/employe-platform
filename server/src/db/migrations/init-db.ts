@@ -35,11 +35,11 @@ INSERT INTO employees (first_name, last_name, department, salary) VALUES
 
 const querySeedDepartments = `
 INSERT INTO departments (name) VALUES
-('Sales'),
-('Marketing'),
+('Finance'),
 ('HR'),
 ('IT'),
-('Finance');
+('Marketing'),
+('Sales');
 `;
 
 const dropTable = async () => {
